@@ -12,9 +12,7 @@ from sklearn.model_selection import cross_val_score
 import scipy.stats as stats
 from scipy.signal import savgol_filter
 import warnings
-warnings.filterwarnings('ignore')
 
-# ─── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="COVID-19 Advanced Analytics | Ayush Kumar",
     page_icon="🦠",
@@ -22,14 +20,14 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ─── THEME TOGGLE ────────────────────────────────────────────────────────────────
+
 if 'dark_mode'         not in st.session_state: st.session_state.dark_mode         = True
 if 'active_tab'        not in st.session_state: st.session_state.active_tab        = "Overview"
 if 'selected_wave'     not in st.session_state: st.session_state.selected_wave     = "All"
 if 'compare_mode'      not in st.session_state: st.session_state.compare_mode      = False
 if 'ml_model_trained'  not in st.session_state: st.session_state.ml_model_trained  = False
 
-# ─── CSS ────────────────────────────────────────────────────────────────────────
+
 def get_css(dark):
     bg        = "#07090f" if dark else "#f4f6fb"
     card_bg   = "#0e1117" if dark else "#ffffff"
@@ -259,7 +257,7 @@ plot_bg    = 'rgba(0,0,0,0)'
 
 COLORS = ['#7c3aed','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#8b5cf6','#14b8a6']
 
-# ─── DATA ───────────────────────────────────────────────────────────────────────
+
 @st.cache_data
 def load_data():
     df = pd.read_csv("data/owid-covid-data.csv")
@@ -284,7 +282,6 @@ def load_data():
 df, countries_df, world_df, latest = load_data()
 all_countries = sorted(countries_df['location'].unique().tolist())
 
-# ─── SIDEBAR ────────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
     <div class='sidebar-logo'>
@@ -374,7 +371,6 @@ filtered = countries_df[
     (countries_df['date'] <= end_date)
 ]
 
-# ─── HERO ───────────────────────────────────────────────────────────────────────
 world_l  = world_df.iloc[-1]
 india_l  = countries_df[countries_df['location'] == 'India'].iloc[-1]
 usa_l    = countries_df[countries_df['location'] == 'United States'].iloc[-1]
@@ -435,7 +431,7 @@ for color, icon, val, label, delta, dtype in kpis:
 kpi_html += "</div>"
 st.markdown(kpi_html, unsafe_allow_html=True)
 
-# ─── TREND ANALYSIS (SECTION 1) ──────────────────────────────────────────────────
+
 st.markdown("""
 <div class='section-hdr'>
   <div class='section-hdr-icon' style='background:rgba(124,58,237,.15);'>📈</div>
@@ -597,7 +593,6 @@ with col_d:
     st.markdown("**☠️ Case Fatality Rate**")
     st.plotly_chart(fig5, use_container_width=True)
 
-# ─── WORLD MAP ──────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class='section-hdr'>
   <div class='section-hdr-icon' style='background:rgba(16,185,129,.15);'>🗺️</div>
@@ -647,7 +642,6 @@ fig_map.update_layout(
 )
 st.plotly_chart(fig_map, use_container_width=True)
 
-# ─── EPIDEMIOLOGICAL ANALYSIS ────────────────────────────────────────────────────
 st.markdown("""
 <div class='section-hdr'>
   <div class='section-hdr-icon' style='background:rgba(245,158,11,.15);'>📊</div>
@@ -746,7 +740,6 @@ fig_bub.update_layout(
 )
 st.plotly_chart(fig_bub, use_container_width=True)
 
-# ─── KEY INSIGHTS ────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class='section-hdr'>
   <div class='section-hdr-icon' style='background:rgba(124,58,237,.15);'>💡</div>
@@ -816,7 +809,7 @@ insights_html = f"""
 """
 st.markdown(insights_html, unsafe_allow_html=True)
 
-# ─── ML PREDICTION ENGINE ────────────────────────────────────────────────────────
+
 st.markdown("""
 <div class='section-hdr'>
   <div class='section-hdr-icon' style='background:rgba(16,185,129,.15);'>🤖</div>
@@ -1145,7 +1138,7 @@ with corr_col2:
     </div>
     """, unsafe_allow_html=True)
 
-# ─── STATISTICAL HYPOTHESIS TESTS ────────────────────────────────────────────────
+
 with st.expander("🧪 Statistical Hypothesis Testing", expanded=False):
     ht_col1, ht_col2 = st.columns(2)
     with ht_col1:
@@ -1186,7 +1179,7 @@ with st.expander("🧪 Statistical Hypothesis Testing", expanded=False):
             - **Result**: {'❌ Non-normal (use non-parametric tests)' if w_p < .05 else '✅ Approximately normal'}
             """)
 
-# ─── FOOTER ──────────────────────────────────────────────────────────────────────
+
 st.markdown(f"""
 <div class='footer'>
     <b>COVID-19 Advanced Analytics Dashboard</b> &nbsp;|&nbsp;
